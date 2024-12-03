@@ -36,10 +36,16 @@ export const loginUserController = async (req, res) => {
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
     expires: new Date(Date.now() + THIRTY_DAYS),
+    secure: process.env.NODE_ENV === 'production' ? true : false,
+    // secure:false,
+    sameSite: 'None',
   });
   res.cookie('sessionId', session._id, {
     httpOnly: true,
     expires: new Date(Date.now() + THIRTY_DAYS),
+    secure: process.env.NODE_ENV === 'production' ? true : false,
+    // secure:false,
+      sameSite: 'None',
   });
 
   res.json({
@@ -75,6 +81,7 @@ const setupSession = (res, session) => {
 };
 
 export const refreshUserSessionController = async (req, res) => {
+  console.log(req.cookies);
   const session = await refreshUsersSession({
     sessionId: req.cookies.sessionId,
     refreshToken: req.cookies.refreshToken,

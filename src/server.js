@@ -18,15 +18,28 @@ export const setupServer = () => {
   const app = express();
 
   app.use(express.json());
-  app.use(
-    cors({
-      origin: '*', // або '*', якщо дозволені всі домени
-      // origin: ['https://aqua-track-project-back.onrender.com', 'http://localhost:3000/', 'http://localhost:5173/'], // або '*', якщо дозволені всі домени
-      credentials: true,
-    }),
-  );
-
   app.use(cookieParser());
+  const corsOptions = {
+    origin: (origin, callback) => {
+      // Якщо потрібен доступ із будь-якого домену
+      callback(null, true); 
+    },
+    credentials: true, // Дозволяє передачу cookies
+  };
+
+  app.use(cors(corsOptions));
+  app.options('*', cors(corsOptions)); 
+
+
+  // app.use(
+  //   cors({
+  //     origin: '*', // або '*', якщо дозволені всі домени
+  //     // origin: ['https://aqua-track-project-back.onrender.com', 'http://localhost:3000/', 'http://localhost:5173/'], // або '*', якщо дозволені всі домени
+  //     credentials: true,
+  //   }),
+  // );
+
+  
 
   app.get('/', (req, res) => {
     res.json({
