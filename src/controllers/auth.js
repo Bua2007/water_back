@@ -36,14 +36,14 @@ export const loginUserController = async (req, res) => {
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
     expires: new Date(Date.now() + THIRTY_DAYS),
-    secure: process.env.NODE_ENV === 'production' ? true : false,
+    secure:  true,
     // secure:false,
     sameSite: 'None',
   });
   res.cookie('sessionId', session._id, {
     httpOnly: true,
     expires: new Date(Date.now() + THIRTY_DAYS),
-    secure: process.env.NODE_ENV === 'production' ? true : false,
+    secure: true,
     // secure:false,
       sameSite: 'None',
   });
